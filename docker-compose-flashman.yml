@@ -1,0 +1,54 @@
+version: '3'
+services:
+  flashman-mqtt-broker:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"
+    deploy:
+      restart_policy:
+        condition: always
+    restart: "always"
+    user: root
+    networks:
+      flm_net:
+        aliases:
+          - flashman-mqtt-broker
+
+  flashman:
+    image: anlixhub/flashman:latest
+    depends_on:
+      - flashman-mqtt-broker
+      - flashman-mongodb
+    deploy:
+      restart_policy:
+        condition: always
+    restart: "always"
+    env_file:
+      - .env_flashman
+    user: root
+    networks:
+      flm_net:
+        aliases:
+          - flashman
+
+  flashman-mongodb:
+    image: mongo:3.6.1-jessie
+    deploy:
+      restart_policy:
+        condition: always
+    restart: "always"
+    user: root
+    networks:
+      flm_net:
+        aliases:
+          - flashman-mongodb
+networks:
+  flm_net:
+    driver: overlay
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.239.0/24
+

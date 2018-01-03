@@ -16,6 +16,8 @@ services:
 
   flashman:
     image: anlixhub/flashman:latest
+    ports:
+      - "8000:8000"
     depends_on:
       - flashman-mqtt-broker
       - flashman-mongodb

@@ -16,6 +16,8 @@ services:
 
   flashman:
     image: anlixhub/flashman:latest
+    volumes:
+      - /data/firmwares:/app/public/firmwares
     ports:
       - "8000:8000"
     depends_on:

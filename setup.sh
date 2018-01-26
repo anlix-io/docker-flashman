@@ -7,3 +7,4 @@ then
 fi
 
 mkdir -p /data/firmwares
+mkdir -p /data/flashman-db
